@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employeeMapper">
+	<insert id="save"
+	parameterType="com.kh.employee.model.vo">
+		INSERT 
+		  INTO 
+		       EMPLOYEE
+		       (
+		       EMP_ID
+		     , EMP_NAME
+		     , EMP_NO
+		     , EMAIL
+		     , PHONE
+		     , DEPT_CODE
+		     , JOB_CODE
+		     , SAL_LEVEL
+		     , SALARY
+		     , BONUS
+		     , MANAGER_ID
+		     , HIRE_DATE
+		     , ENT_DATE
+		     , ENT_YN
+		       )
+		VALUES
+		       (
+		       ?
+		     , ?
+		     , ?
+		     , NULL
+		     , NULL
+		     , NULL
+		     , ?
+		     , ?
+		     , NULL
+		     , NULL
+		     , NULL
+		     , SYSDATE
+		     , NULL
+		     , 'N'
+		       )
+	</insert>
+	
+	<select id="findAll"
+		resultType="com.kh.employee.model.vo"
+	>
+		SELECT
+		       EMP_ID
+		     , EMP_NAME
+		     , SALARY
+		     , DEPT_TITLE
+		     , JOB_NAME
+		  FROM
+		       EMPLOYEE
+		  JOIN
+		       JOB USING (JOB_CODE)
+		  JOIN 
+		       DEPARTMENT ON (DEPT_CODE = DEPT_ID)
+	</select>
+
+</mapper>
