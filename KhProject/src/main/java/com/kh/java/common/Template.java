@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class Template {
 
-	public static SqlSession getSqlSeeion() {
+	public static SqlSession getSqlSession() {
 
 		SqlSession sqlSession = null;
 

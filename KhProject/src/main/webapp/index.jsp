@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>웰컴웰컴</title>
-</head>
-<body>
-	<!-- 
+  <head>
+    <meta charset="UTF-8" />
+    <title>웰컴웰컴</title>
+  </head>
+  <body>
+    <!-- 
 		* WEB환경에서의 CRUD
 		
 		* 회원서비스
@@ -24,8 +24,8 @@
 		* 사진게시판 서비스
 		사진게시글 목록조회(이미지), 상세조회, 게시글 작성(다중 파일 업로드)
 	 -->
-	<jsp:include page="WEB-INF/views/include/header.jsp" />
-	<jsp:include page="WEB-INF/views/include/main.jsp" />
-	<jsp:include page="WEB-INF/views/include/footer.jsp" />
-</body>
+    <jsp:include page="WEB-INF/views/include/header.jsp" />
+    <jsp:include page="WEB-INF/views/include/main.jsp" />
+    <jsp:include page="WEB-INF/views/include/footer.jsp" />
+  </body>
 </html>

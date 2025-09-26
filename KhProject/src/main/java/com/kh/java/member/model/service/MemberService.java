@@ -14,7 +14,7 @@ public class MemberService {
 		// 로그인 처리 -> DAO에 보내서 있나 없네 -> 결과값 반환
 		// validateMember(member); 비즈니스 로직.
 
-		SqlSession sqlSession = Template.getSqlSeeion();
+		SqlSession sqlSession = Template.getSqlSession();
 
 		Member loginMember = md.login(sqlSession, member);
 
