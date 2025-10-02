@@ -59,11 +59,13 @@ tr:hover{
                         <td style="color: #52d6ffcc;">
                         ${ board.boardTitle } &nbsp;
                         </td>
+                        <!--  <a href="detail.borard?boardNo=${board.boardNo}">
+                        </a> -->
                         <td>
                         ${ board.createDate }
                         </td>
                         <td>
-                        ${ baord.count }
+                        ${ board.count }
                         </td>
                     </tr>
                     </c:forEach>    
@@ -74,6 +76,16 @@ tr:hover{
             </div>            
          </div>
       </div>
+      <script>
+      	$(function() {
+      		$('.board').click (e => {
+      			
+      			//console.log(e.currentTarget);
+      			const targetId = e.currentTarget.id;
+      			location.href=`detail.board?boardNo=\${targetId}`;
+      		});
+      	});
+      </script>
          <div class="paging-area" align="center" >
          <br><br><br><br><br>
         	
