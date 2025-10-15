@@ -23,12 +23,10 @@
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="UNPOOLED">
-				<property name="driver"
-					value="oracle.jdbc.driver.OracleDriver" />
-				<property name="url"
-					value="jdbc:oracle:thin:@115.90.212.20:10000:XE" />
-				<property name="username" value="KHS02" />
-				<property name="password" value="KHS021234" />
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@115.90.212.20:10000:XE" />
+				<property name = "username" value="KHS02"/>
+				<property name = "password" value="KHS021234"/>
 			</dataSource>
 		</environment>
 	</environments>

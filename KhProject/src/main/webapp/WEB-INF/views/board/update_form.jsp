@@ -24,31 +24,33 @@ form {
 
 		<form action="update.board" method="post" id="update-form"
 			enctype="multipart/form-data">
-			<input type="hidden" name="boardNo" value="${map.board.boardNo }" />
+			<input type="hidden" name="boardNo" value="${ map.board.boardNo }">
 			<div class="form-group">
 				<select name="category" class="form-control">
-					<c:forEach items="${ category }" var="c">
+					<c:forEach items="${category }" var="c">
 						<option value="${c.categoryNo }">${c.categoryName }</option>
 					</c:forEach>
 				</select>
 			</div>
-
+			
 			<script>
 				$(function() {
 					//alert("${map.board.category}");
 					$('option').each(function() {
 						//nsole.log($(this));
 					})
-
+					
 				})
+				
+				
 			</script>
 
 
 			<div class="form-group">
 				<label for="usr">제목</label> <input type="text" class="form-control"
-					id="usr" name="title" value="${map.board.boardTitle }">
+					id="usr" name="title" value="${ map.board.boardTitle }">
 			</div>
-			
+
 			<div class="form-group">
 				<label for="comment">내용</label>
 				<textarea class="form-control" name="content" rows="15" id="comment"
@@ -57,11 +59,11 @@ form {
 
 			<div class="form-group">
 				<input type="file" name="reUpfile">
-				<c:if test="${not empty map.at }">
 				<!-- 기존 첨부파일이 존재했을 경우 원본파일명 보여주기 -->
-				첨부파일 : <label>${ map.at.originName }</label>
-				<input type="hidden" name="fileNo" value="${map.at.fileNo }" />
-				<input type="hidden" name="changeName" value="${map.at.changeName }" />
+				<c:if test="${ not empty map.at }">
+				첨부파일 : <label>${map.at.originName }</label>
+				<input type="hidden" name="fileNo" value="${ map.at.fileNo }"/>
+				<input type="hidden" name="changeName" value="${ map.at.changeName }"/>
 				</c:if>
 			</div>
 

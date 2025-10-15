@@ -31,7 +31,7 @@ public class BoardSearchController extends HttpServlet {
 		// 페이징처리까지 끝내서 들고 갈 것
 
 		String condition = request.getParameter("condition");
-		// writer, title, content
+		// "writer", "title", "content"
 		String keyword = request.getParameter("query");
 		// 사용자가 입력한 값
 
@@ -47,14 +47,14 @@ public class BoardSearchController extends HttpServlet {
 		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		int endPage = startPage + pageLimit - 1;
 		int offset = (currentPage - 1) * boardLimit;
-
 		if (endPage > maxPage) {
 			endPage = maxPage;
 		}
 
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, startPage, endPage, maxPage, offset);
+
 		map.put("offset", offset);
-		map.put("boardLimit", boardLimit);
+		map.put("limit", boardLimit);
 
 		List<Board> boards = new BoardService().selectSearchList(map);
 
@@ -64,6 +64,7 @@ public class BoardSearchController extends HttpServlet {
 		request.setAttribute("condition", condition);
 
 		request.getRequestDispatcher("/WEB-INF/views/board/board_list.jsp").forward(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

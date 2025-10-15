@@ -13,10 +13,10 @@ import com.kh.java.board.model.service.BoardService;
 import com.kh.java.board.model.vo.Category;
 
 @WebServlet("/enrollForm.board")
-public class enrollFormContrller extends HttpServlet {
+public class EnrollFormController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public enrollFormContrller() {
+	public EnrollFormController() {
 		super();
 	}
 

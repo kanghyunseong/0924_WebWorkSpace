@@ -32,33 +32,33 @@ public class ImageInsertController extends HttpServlet {
 			throws ServletException, IOException {
 
 		// 1) 인코딩
-
 		request.setCharacterEncoding("UTF-8");
 
-		// 2) 첨부파일 => multi/form-data -> 조건문 -> 서버로 파일을 올려주자
+		// 2) 첨부파일 -> multi/form-date -> 조건문 -> 서버로 파일을 올려주자
 		if (ServletFileUpload.isMultipartContent(request)) {
 
-			// 1) MultiPartRequest 생성
+			// 1) MultipartRequest
 			// 1_1. 용량
 			int maxSize = 100000000;
 
-			// 1_2) 경로
+			// 1_2. 경로
 			String savePath = request.getServletContext().getRealPath("/resources/image_upfiles");
 
 			// 2) 객체 생성과 동시에 파일 업로드
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8",
 					new MyRenamePolicy());
 
-			// 파일 업로드 끝!
+			// 파일업로드 끝!
 
-			// 뽀드랑 아파치먼트랑 인서트
+			// 뽀드랑 아따치먼트랑 인서트
 
-			// 3) multiRequest참조해서 값뽑기 => getParameter()호출
-			String boardTitle = multiRequest.getParameter("title");
-			String boardContent = multiRequest.getParameter("content");
+			// 3) multiRequest참조해서 값뽑기 => getParameter() 호출
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("userInfo");
 			Long userNo = member.getUserNo();
+
+			String boardTitle = multiRequest.getParameter("title");
+			String boardContent = multiRequest.getParameter("content");
 			String boardWriter = String.valueOf(userNo);
 
 			// 4) 가공
@@ -72,25 +72,28 @@ public class ImageInsertController extends HttpServlet {
 			// 게시글 당 최소 한 개의 첨부파일은 존재
 
 			List<Attachment> files = new ArrayList();
-
+			// 키값 file1 ~ file 4
 			for (int i = 1; i <= 4; i++) {
 				String key = "file" + i;
 				// System.out.println(key);
 
-				// 조건검사 name 속성값을 이용해서 파일이 있는가 ? 없는가 ?
+				// 조건검사 name속성값을 이용해서 파일이 있는가? 없는가?
 				if (multiRequest.getOriginalFileName(key) != null) {
 					// 파일이 존재한다.
+
 					Attachment at = new Attachment();
 					at.setOriginName(multiRequest.getOriginalFileName(key));
 					at.setChangeName(multiRequest.getFilesystemName(key));
-					at.setFilePath("/resources/image_upfiles");
+					at.setFilePath("resources/image_upfiles");
 
-					// 대표 이미지 == file1
+					// 대표이미지 == file1
 					at.setFileLevel(i == 1 ? 1 : 2);
+
 					files.add(at);
+
 				}
 			}
-			// 요청 처리 -> 서비스단으로 전달
+			// 요청처리 -> 서비스단으로 전달
 			int result = new BoardService().insertImage(board, files);
 
 			if (result > 0) {
@@ -100,7 +103,6 @@ public class ImageInsertController extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/views/common/result_page.jsp").forward(request, response);
 			}
 		}
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

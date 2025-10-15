@@ -37,15 +37,12 @@ public class BoardUpdateController extends HttpServlet {
 		// multipart방식으로 요청이 잘 왔는가 확인
 		if (ServletFileUpload.isMultipartContent(request)) {
 
-			// 파일업로드 | MultipartRequest객체 생성
-
+			// 파일 업로드 | MultipartRequest객체 생성
 			// 1. 전송파일 용량 제한
-			int maxSize = 10 * 1024 * 1024;
-
+			int maxSize = 1024 * 1024 * 10;
 			// 2. 파일을 저장할 물리적인 경로
-			String savePath = request.getServletContext().getRealPath("resources/board_upfiles");
-
-			// 3. Multipart객체 생성
+			String savePath = request.getServletContext().getRealPath("/resources/board_upfiles");
+			// Multipart객체 생성
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8",
 					new MyRenamePolicy());
 
@@ -55,9 +52,10 @@ public class BoardUpdateController extends HttpServlet {
 			// KH_ATTACHMENT
 
 			// case 1. 첨부파일이 없음 => BOARD UPDATE + AT X
-			// case 2. 첨부파일이 있음, 기존 첨부파일 있음 => BOARD_UPDATE + AT UPDATE
-			// case 3. 첨부파일 있음, 기존 첨부파일 X => BOARD UPDATE + AT INSERT
+			// case 2. 첨부파일 O, 기존 첨부파일 O => BOARD UPDATE + AT UPDATE
+			// case 3. 첨부파일 O, 기존 첨부파일 X => BOARD UPDATE + AT INSERT
 
+			// 값뽑기
 			String category = multiRequest.getParameter("category");
 			String boardTitle = multiRequest.getParameter("title");
 			String boardContent = multiRequest.getParameter("content");
@@ -75,12 +73,11 @@ public class BoardUpdateController extends HttpServlet {
 
 			// Attachment객체 선언만!!!
 			// 실제 첨부파일이 존재할 경우에만 => 객체 생성
-
 			Attachment at = null;
 
 			if (multiRequest.getOriginalFileName("reUpfile") != null) {
 
-				// 새로운 첨부파일이 존재하면 객체 생성 후 원본명, 바꾼명, 경로담기
+				// 새로운 첨부파일이 존재하면 객체 생성 후 원본명, 바꾼명, 경로 담기
 				at = new Attachment();
 				at.setOriginName(multiRequest.getOriginalFileName("reUpfile"));
 				at.setChangeName(multiRequest.getFilesystemName("reUpfile"));
@@ -93,9 +90,9 @@ public class BoardUpdateController extends HttpServlet {
 				if (multiRequest.getParameter("fileNo") != null) {
 					// 새로운 첨부파일이 있음 + 원본파일도 있었음
 					// ATTACHMENT => UPDATE => 원본파일번호가 필요함
-					// 기존 파일이 가지고 있던 fileNo at의 fileNo필드에 담아줄 것
-
+					// 기존 파일이 가지고 있던 fileNo at의 fileNo필드에 담아줄것
 					at.setFileNo(Long.parseLong(multiRequest.getParameter("fileNo")));
+					// 기존에 존재하던 첨부파일 삭제
 					new File(savePath + "/" + multiRequest.getParameter("changeName")).delete();
 				} else {
 					// 새로운 첨부파일이 있음 + 원본파일은 없었음
@@ -103,22 +100,28 @@ public class BoardUpdateController extends HttpServlet {
 					// 어떤 게시글의 첨부파일인지 (REF_BNO)
 					at.setRefBno(boardNo);
 				}
+
 			}
 
-			// 요청 처리
-			// UPDATE 1
-			// UPdATE 2
-			// UPDATE 1 + INSERT 1
+			// 요청처리
+			// UPDATE1
+			// UPDATE2
+			// UPDATE1 + INSERT 1
 
 			int result = new BoardService().update(board, at);
 
 			if (result > 0) {
+				session.setAttribute("alertMsg", "게시글 수정 성공~");
+
+				// http://localhost:4000/kh /detail.board?boardNo=번호
+
 				response.sendRedirect(request.getContextPath() + "/detail.board?boardNo=" + boardNo);
 			} else {
-				request.setAttribute("msg", "게시글 수정에 실패");
-				request.getRequestDispatcher("WEB-INF/views/common/result_page.jsp").forward(request, response);
+				request.setAttribute("msg", "게시글 수정에 실패했어요...");
+				request.getRequestDispatcher("/WEB-INF/views/common/result_page.jsp").forward(request, response);
 			}
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

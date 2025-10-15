@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,56 +52,57 @@
                 <input type="file" name="file3" id="file3" onchange="loadImg(this, 3);">
                 <input type="file" name="file4" id="file4" onchange="loadImg(this, 4);">
             </div>
+            
             <script>
-            	$(function() {
+            	$(function(){
             		$('#file-area').hide();
             		
             		$('#title-img').click(() => {
-						$('#file1').click();            			
+            			$('#file1').click();
             		});
             		
             		$('#sub-img1').click(() => {
-						$('#file2').click();            			
-            		});
+            			$('#file2').click();
+            		})
             		
             		$('#sub-img2').click(() => {
-						$('#file3').click();            			
-            		});
+            			$('#file3').click();
+            		})
             		
             		$('#sub-img3').click(() => {
-						$('#file4').click();            			
-            		});
+            			$('#file4').click();
+            		})
             	});
             </script>
             
             <script>
-            	function loadImg(e, num) {
-            		// console.log('첫번째인자 : ' + e + ", 두번째 : " + num);  
+            	function loadImg(e, num){
+					// console.log('첫번째인자 : ' + e + ", 두번째 : " + num);            		
             		// console.log(e);
             		// e : 현재 change이벤트가 발생한 <input type="file"> 요소객체
             		// num : 몇 번째 input요소인지 확인 후 해당영역에 미리보기할라고 받음
+            		
             		console.log(e.files);
             		// files:첨부한 파일의 정보를 가지고 있음
             		// files.length : 파일을 첨부 1, 선택 취소 0
             		// => 파일의 존재 유무를 파악할 수 있음
             		// 파일이 첨부되었을 경우 e.files[0]에 파일의 정보를 확인할 수 있음
             		
-            		if(e.files.length === 1) {
+            		if(e.files.length === 1){ // 파일첨부
             			
-            			// 파일 첨부
-            			// 선택된 파일을 읽어서 이미지를 띄울 수 있는 URL을 만들 것
-            			// 필요한 객체 == FileReader
-            			
-            			const reader = new FileReader();
-            			
+						// 선택된 파일을 읽어서 이미지를 띄울 수 있는 URL을 만들 것
+						// 필요한 객체 == FileReader
+						const reader = new FileReader();
+						
             			// reader객체 메소드 중에 파일읽기 메소드 호출
             			reader.readAsDataURL(e.files[0]);
             			
             			// 파일을 읽는 순간 파일만의 고유한 URL이 생김
             			// URL을 미리보기 영역의 img태그의 src속성값으로 부여할 것
             			
-            			// 파일 읽기가 완료되면 실행할 이벤트 핸들러를 하나 정의
-            			reader.onload = function(e) {
+            			// 파일 읽기가 완료되면 실행할 이벤트 핸들럴르 하나 저으이
+            			reader.onload = function(e){
+            				
             				console.log(e);
             				const url = e.target.result;
             				
@@ -112,25 +112,30 @@
             				// 각 영역에 맞춰 미리보기 해주기
             				// num값 확인해서 각각에 맞는 img태그에 넣어주기
             				
-            				switch(num) {
+            				switch(num){
             				case 1: $("#title-img").attr('src', url); break;
             				case 2: $("#sub-img1").attr('src', url); break;
             				case 3: $("#sub-img2").attr('src', url); break;
             				case 4: $("#sub-img3").attr('src', url); break;
+            				
             				}
+            
+            				
             			}
-            		} else {
-            			const tuna = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjE9sMxYEtejZG8jSgJiAQ_D01PHXWn9F8ZA&s";
-            			switch(num) {
-        				
-            			case 1: $("#title-img").attr('src', tuna); break;
+            				
+            		}else {
+            			const tuna = "https://i.ytimg.com/vi/o_451HgDOus/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBOev0X1QrW8t-NtNW67u3ezpjGug";
+            			switch(num){
+        				case 1: $("#title-img").attr('src', tuna); break;
         				case 2: $("#sub-img1").attr('src', tuna); break;
-        				case 3: $("#sub-img2").attr('src',tuna); break;
+        				case 3: $("#sub-img2").attr('src', tuna); break;
         				case 4: $("#sub-img3").attr('src', tuna); break;
-            			}
+        				
+        				}
+            			
             		}
+            		
             	}
-            	
             </script>
 
             <div align="center" style="margin-top:20px">
